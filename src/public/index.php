@@ -1,24 +1,27 @@
 <?php
 
 require '../vendor/autoload.php';
+
 use App\Config\Config;
+
 $app = new \App\App();
 
+// setting the container
 $container = $app->getContainer();
 
+// route not found
 $container['errorHandler'] = function () {
-
+    die(404);
 };
 
-$baseUrl = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']. '';
-
+// setting twig to the container
 $container['twig'] = function () {
   $loader = new Twig_Loader_Filesystem(dirname(__DIR__) . '/app/Views');
   $twig = new Twig_Environment($loader);
   return $twig;
 };
 
-
+// setting config to the container
 $config = new Config();
 $config->load(dirname(__DIR__) . '/config/database.php');
 $container['config'] = function () use ($config) {
@@ -30,21 +33,22 @@ $container['config'] = function () use ($config) {
 
     ];
 };
+
+// setting database to the container
 $container['db'] = function ($c) {
   return new PDO(
       "mysql:host={$c->config['host']};dbname={$c->config['db']}", $c->config['user'], $c->config['pass']
     );
 };
 
+// routes
 $app->get('/', [new App\Controllers\HomeController($container->twig), 'index']);
 
 $app->post('/reservation', [new App\Controllers\ReservationController($container->db), 'store']);
 
-$app->get('/view/reservation', [new App\Controllers\ReservationController($container->db), 'index']);
+$app->get('/search', [new App\Controllers\ReservationController($container->db, $container->twig), 'search']);
 
-$app->map('/users', function () {
-    echo 'Users';
-}, ['GET', 'POST']);
+$app->post('/results', [new App\Controllers\ReservationController($container->db, $container->twig), 'show']);
 
-
+// Bootstraping the application
 $app->run();

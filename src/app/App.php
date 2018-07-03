@@ -6,8 +6,15 @@ use App\Exceptions\RouteNotFoundException;
 
 class App
 {
+
+    /**
+     * @var Container
+     */
     protected $container;
 
+    /**
+     * App constructor.
+     */
     public function __construct()
     {
         $this->container = new Container([
@@ -17,26 +24,43 @@ class App
         ]);
     }
 
+    /**
+     * Getter for container
+     *
+     * @return Container
+     */
     public function getContainer()
     {
         return $this->container;
     }
 
+    /**
+     * Get Method
+     *
+     * @param $uri
+     * @param $handler
+     */
     public function get($uri, $handler)
     {
         $this->container->router->addRoute($uri, $handler, ['GET']);
     }
 
+    /**
+     * Post Method
+     *
+     * @param $uri
+     * @param $handler
+     */
     public function post($uri, $handler)
     {
         $this->container->router->addRoute($uri, $handler, ['POST']);
     }
 
-    public function map($uri, $handler, array $methods = ['GET'])
-    {
-        $this->container->router->addRoute($uri, $handler, $methods);
-    }
-
+    /**
+     * Sets up the route and returns a response
+     *
+     * @return mixed
+     */
     public function run()
     {
         $router = $this->container->router;
@@ -54,6 +78,12 @@ class App
         return $this->process($response);
     }
 
+    /**
+     * Takes in a callable method eg get(uri, function(){}, method)
+     *
+     * @param $callable
+     * @return mixed
+     */
     protected function process($callable)
     {
         $response = $this->container->response;

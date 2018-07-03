@@ -6,8 +6,6 @@ services:
 
     mysql:
       image: mysql:5.7
-      volumes:
-        - .:/var/www/html/immedia
       environment:
         - MYSQL_ROOT_PASSWORD=secret
         - MYSQL_DATABASE=booking

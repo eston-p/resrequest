@@ -10,8 +10,14 @@ class Config
      */
     protected $config;
 
-    protected  $default;
     /**
+     * @var
+     */
+    protected  $default;
+
+    /**
+     * Loads config from file
+     *
      * @param $file
      */
     public function load($file)
@@ -19,10 +25,12 @@ class Config
         $this->config = require $file;
     }
 
-
     /**
+     * Takes in params and foreach's through the config array to get the value e.g mysql.host
+     *
      * @param $key
-     * @param null $dafault
+     * @param null $default
+     * @return array|null
      */
     public function get($key, $default = null)
     {

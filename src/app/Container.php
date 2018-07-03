@@ -6,10 +6,21 @@ use ArrayAccess;
 
 class Container implements ArrayAccess
 {
+
+    /**
+     * @var array
+     */
     protected $items = [];
 
+    /**
+     * @var array
+     */
     protected $cache = [];
 
+    /**
+     * Container constructor.
+     * @param array $items
+     */
     public function __construct(array $items = [])
     {
         foreach ($items as $key => $item) {
@@ -17,11 +28,19 @@ class Container implements ArrayAccess
         }
     }
 
+    /**
+     * @param mixed $offset
+     * @return bool
+     */
     public function offsetExists($offset)
     {
         return isset($this->items[$offset]);
     }
 
+    /**
+     * @param mixed $offset
+     * @return mixed|null
+     */
     public function offsetGet($offset)
     {
         if (!$this->has($offset)) {
@@ -39,11 +58,18 @@ class Container implements ArrayAccess
         return $item;
     }
 
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     */
     public function offsetSet($offset, $value)
     {
         $this->items[$offset] = $value;
     }
 
+    /**
+     * @param mixed $offset
+     */
     public function offsetUnset($offset)
     {
         if ($this->has($offset)) {
@@ -51,11 +77,19 @@ class Container implements ArrayAccess
         }
     }
 
+    /**
+     * @param $offset
+     * @return bool
+     */
     public function has($offset)
     {
         return $this->offsetExists($offset);
     }
 
+    /**
+     * @param $property
+     * @return mixed|null
+     */
     public function __get($property)
     {
         return $this->offsetGet($property);

@@ -4,12 +4,8 @@ use PHPUnit\Framework\TestCase;
 
 class ExampleTest extends TestCase
 {
-    public function testAllSetUp()
+    public function testExample()
     {
-        $title = 'test';
-        $validation = new \App\Validation\Validation();
-        $rules = $validation->validation([$title => 'int|date']);
-
-
+        $this->assertTrue(true);
     }
 }

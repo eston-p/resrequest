@@ -6,8 +6,8 @@
         <p class="social"><a href="#" title="" class="facebook"><i class="fa fa-facebook"></i></a><a href="#" title="" class="twitter"><i class="fa fa-twitter"></i></a><a href="#" title="" class="gplus"><i class="fa fa-google-plus"></i></a><a href="#" title="" class="instagram"><i class="fa fa-instagram"></i></a></p>
         <div class="row">
             <div class="col-sm-12">
-                <h1 class="cursive">Countdown template</h1>
-                <h2 class="sub">We are still tweaking few details, stay tuned!</h2>
+                <h6 class="sub"><a href="/">Make a reservation</a> </h6>
+                <h6 class="sub"><a href="/search">Search for a reservation</a> </h6>
             </div>
         </div>
 

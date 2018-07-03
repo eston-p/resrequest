@@ -2,23 +2,37 @@
 
 namespace App\Controllers;
 
-
 use App\Validation\Validation;
 
 class ReservationController
 {
+
+    /**
+     * @var \PDO
+     */
     protected $PDO;
 
-    public function __construct(\PDO $PDO)
+    /**
+     * @var null
+     */
+    protected $container;
+
+    /**
+     * ReservationController constructor.
+     * @param \PDO $PDO
+     * @param null $container
+     */
+    public function __construct(\PDO $PDO, $container = null)
     {
         $this->PDO = $PDO;
+
+        $this->container = $container;
     }
 
-    public function index()
-    {
-
-    }
-
+    /**
+     * Method used to save to db
+     * @return void
+     */
     public function store()
     {
 
@@ -44,5 +58,30 @@ class ReservationController
                 'femail' => $email,
             ]);
 
+            return header('Location: /');
+    }
+
+    /**
+     * Displays form
+     *
+     * @return void
+     */
+    public function search()
+    {
+        echo $this->container->render('search.php');
+    }
+
+    /**
+     * Displays search results
+     *
+     * @return void
+     */
+    public function show()
+    {
+        $search = $_POST['search'];
+        $statement = $this->PDO->prepare("SELECT * FROM reservations WHERE name LIKE ?");
+        $statement->execute(['%'.$search.'%']);
+        $results = $statement->fetch();
+        echo $this->container->render('results.php', ['results' => $results]);
     }
 }
